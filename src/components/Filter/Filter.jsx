@@ -1,7 +1,16 @@
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import {getSearchingContacts} from '../../redux/contacts/actions';
 import s from './Filter.module.css';
 
-const Filter = ({ filter, handleChange }) => {
+const Filter = () => {
+
+  const dicpatch = useDispatch();
+  const filter = useSelector(state=> state.contacts.filter)
+
+  const handleFilter = (e)=> {
+    dicpatch(getSearchingContacts(e.target.value))
+  }
+
   return (
     <label className={s.find}>
       Find contacts by name
@@ -13,15 +22,12 @@ const Filter = ({ filter, handleChange }) => {
         title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
         required
         value={filter}
-        onChange={handleChange}
+        onChange={handleFilter}
       />
     </label>
   );
 };
 
-Filter.propTypes = {
-  filter: PropTypes.string.isRequired,
-  handleChange: PropTypes.func.isRequired,
-};
+
 
 export default Filter;
